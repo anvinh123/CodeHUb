@@ -21,8 +21,8 @@ product_amount=data.groupby(by=['product_name'],as_index=False).agg({
 product_amount.sort_values(by=['amount'],ascending=False)[:10]
 
 
-# ------------------------------------------------ CONVERTING DATETIME TYPE HAVING UTC ---------
-# HARD REMOVING UTC IN DATETIME - S1
+# ------------------------------------------------ CONVERTING DATETIME TYPE HAVING UTC --------- VER 1
+# HARD REMOVING UTC IN DATETIME 
 db_datetime['date_created']=db_datetime['date_created'].str.split(" UTC",n = 1, expand=True)
 
 # Look overviewing Shape
@@ -36,12 +36,25 @@ for i in range(db_datetime.shape[0]):
     db_datetime.iloc[i,2]=a
     i=i+1
     d=d+1
+	
+# ------------------------------------------------ CONVERTING DATETIME TYPE HAVING UTC --------- VER 2
+#CONFIG DATA SOURCE
+db_datetime=data
+db_datetime['date_created']=pd.to_datetime(db_datetime['date_created'],format='%Y-%m-%d')
 
+# ----------------------------------------- SORT DATETIME ----------------------
+db_amount=db_datetime.groupby(by=['date_created'],as_index=False).agg({
+    'customer_id': 'count',
+    'order_id': 'count',
+    'units': 'sum',
+    'amount': 'sum'
+})
+db_amount[:10].sort_values(by='date_created',ascending=True)
 
-
-
-
-
+db_amount['aov']=round(db_amount['amount']/db_amount['order_id'],2)
+db_amount['avg_item']= round(db_amount['units']/db_amount['order_id'],2)
+db_amount['amount']=db_amount['amount'].map('{:,.2f}'.format)
+db_amount[:10]
 
 
 
