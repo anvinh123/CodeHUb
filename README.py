@@ -57,7 +57,9 @@ db_amount['amount']=db_amount['amount'].map('{:,.2f}'.format)
 db_amount[:10]
 
 
-
+# ------------------------------------- MULTIPLES FILTERS -----------------------------------
+fill=['1','440','631','555']
+db_amount[['date_created','customer_id','amount','units']][db_amount.customer_id.isin(fill)]
 
 
 
