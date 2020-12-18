@@ -40,7 +40,11 @@ for i in range(db_datetime.shape[0]):
 # ------------------------------------------------ CONVERTING DATETIME TYPE HAVING UTC --------- VER 2
 #CONFIG DATA SOURCE
 db_datetime=data
-db_datetime['date_created']=pd.to_datetime(db_datetime['date_created'],format='%Y-%m-%d')
+db_datetime['date_created']=pd.to_datetime(db_dtime['date_created'])
+db_dtime['year']=pd.DatetimeIndex(db_dtime['date_created']).year
+db_dtime['month']=pd.DatetimeIndex(db_dtime['date_created']).month
+db_dtime['date']=pd.DatetimeIndex(db_dtime['date_created']).date
+db_dtime['date']=pd.DatetimeIndex(db_dtime['date_created']).day
 
 # ----------------------------------------- SORT DATETIME ----------------------
 db_amount=db_datetime.groupby(by=['date_created'],as_index=False).agg({
