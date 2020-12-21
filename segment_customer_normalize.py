@@ -12,7 +12,7 @@ customer_df[:10]
 
 
 rank_df=customer_df.rank(method='first')
-normalized_df=((rank_df - rank_df.mean())/rank_df.std())[:5000]
+normalized_df=((rank_df - rank_df.mean())/rank_df.std())[:8000]
 normalized_df.describe
 
 # Use silhouette coefficient to determine the best number of clusters
