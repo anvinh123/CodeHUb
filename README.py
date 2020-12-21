@@ -83,22 +83,12 @@ fig, ax = plt.subplots()
 
 ax.bar(x,y, align = 'center')
 ax.set_title ('Revvenue Daily')
-ax.set_xtitle('Date')
-ax.set_ytitle('Amount')
+ax.title('day')
+ax.set_ytitle('amount')
 
 ax.set_xticks(x)
-ax.set_xticklabels(("amount"))
-plt.show()
+ax.set_xticklabels((d_time_group['month']))
 print('OK')
-
-
-
-
-
-
-
-
-
 
 
 
