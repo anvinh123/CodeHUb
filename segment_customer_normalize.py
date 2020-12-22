@@ -106,3 +106,15 @@ plt.xlabel('Total Sales')
 plt.ylabel('Avg Order Value')
 plt.grid()
 plt.show()
+
+# CHECKING DISTRIBUTION OF AOV AND ORDER_NUMBER
+import warnings
+warnings.filterwarnings('ignore')
+
+plt.rcParams['figure.figsize']=(18,8)
+plt.subplot(1,2,1)
+sns.set(style = 'whitegrid' )
+sns.distplot(customer_df['AvgOrderValue'])
+plt.title('Distribution of AOV', fontsize=20)
+plt.xlabel('Range of AOV')
+plt.ylabel('Count')
