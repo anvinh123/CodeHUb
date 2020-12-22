@@ -39,12 +39,34 @@ retail_us.groupby(by=['country'], as_index=False).agg({
     'units':'sum',
     'amount':'sum'
 }).sort_values(by=['amount'], ascending=False)
-#-------------------------------------------------------------------
 
 #-------------------------------------------------------------------
+#CHECK NULL OR ZERO IN customer_id
+retail_us[retail_us.customer_id=='']
+retail_us[retail_us.customer_id=='0']
 
 #-------------------------------------------------------------------
+#SUMMARIZE retail_us
+print('Summarize')
+print('Number of order_code',retail_us['order_code'].nunique())
+print('Number of product_code',retail_us['product_code'].nunique())
+print('Number of cates', retail_us['cate_name'].nunique())
+print('Number of customer_id',retail_us['customer_id'].nunique())
+print('Sum of Units', retail_us['units'].sum())
+print('Sum of Amount',retail_us['amount'].sum())
 
 #-------------------------------------------------------------------
+#RFM ANALYSIS
+print('date_created with MAX',retail_us['date_created'].max())
+now=dt.date(2020,12,21)
+print(now)
+retail_us['date_created']=pd.DatetimeIndex(retail_us['date_created']).date
+display(retail_us[:10])
+
+#-------------------------------------------------------------------
+#SET RECENTLY BY customer_id AND CHECK LAST DATE OF PURCHASING
+recently_df=retail_us.groupby(by='customer_id',as_index=False)['date_created'].max()
+recently_df.columns=['customer_id','LastPurchaseDate']
+recently_df.head(10)
 
 #-------------------------------------------------------------------
