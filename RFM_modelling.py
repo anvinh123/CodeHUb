@@ -162,10 +162,75 @@ rfm_segmentation[:10]
 
 
 #-------------------------------------------------------------------
+rfm_segmentation[rfm_segmentation['RFMScore']=='444'].sort_values('Monetary',ascending=False)[:10]
+print("Best Customers: ",len(rfm_segmentation[rfm_segmentation['RFMScore']=='444']))
+print('Loyal Customers: ',len(rfm_segmentation[rfm_segmentation['F_Quartile']==4]))
+print("Big Spenders: ",len(rfm_segmentation[rfm_segmentation['M_Quartile']==4]))
+print('Almost Lost: ', len(rfm_segmentation[rfm_segmentation['RFMScore']=='244']))
+print('Lost Customers: ',len(rfm_segmentation[rfm_segmentation['RFMScore']=='144']))
+print('Lost Cheap Customers: ',len(rfm_segmentation[rfm_segmentation['RFMScore']=='111']))
+
+#-------------------------------------------------------------------
+#VISUALLIZE DATA FRAME
+test_df=rfm_segmentation.reset_index()
+test_view=test_df.groupby(by=['RFMScore'],as_index=False).agg({
+    'customer_id':'count',
+    'Recency':'mean',
+    'Frequency':'mean',
+    'Monetary':'sum'
+}).sort_values('customer_id', ascending=False)
 
 
+#-------------------------------------------------------------------
+view_df=rfm_segmentation.copy()
+#view_df.loc[view_df['RFMScore']=='444' ,'Define_customer'] = 'Best_customer'
+
+#df['Age_group'] = np.where(df.Age<18, 'under 18',
+ #                          np.where(df.Age<40,'under 40', '>40'))
+view_df['Define_customer']= np.where(view_df.RFMScore == '444', 'Best_customer',
+                                    np.where(view_df.F_Quartile==4,'Loyal_customer',
+                                            np.where(view_df.M_Quartile==4,'BigSpender_cus',
+                                                     np.where(view_df.RFMScore=='244','Alost_lost',
+                                                              np.where(view_df.RFMScore=='144','Lost',
+                                                                      np.where(view_df.RFMScore=='111','Lost_cheap',
+																				np.where(view_df.R_Quartile==4, 'New_customer',
+																						np.where( view_df.M_Quartile==4,'Business','Normal'																				
+																								)
+																						)
+																				
+                                                                              )
+                                                                      )
+                                                             )
+                                                    )
+                                            )
+                                    )
+view_df_cus[:10]
+
+#-------------------------------------------------------------------
+view_df_cus=view_df_cus.groupby(by=['Define_customer'],as_index=False).agg({
+    'customer_id':'count'
+})
+
+import squarify
+squarify.plot(sizes=view_df_cus['customer_id'],
+              label=view_df_cus['Define_customer'],
+              color=["red","green","blue", "grey","white","yellow"],
+              alpha=.4)
+plt.axis('off')
+plt.show()
+
+#-------------------------------------------------------------------
 
 
+#-------------------------------------------------------------------
+
+
+#-------------------------------------------------------------------
+
+#-------------------------------------------------------------------
+
+
+#-------------------------------------------------------------------
 
 
 
